@@ -3,7 +3,7 @@ name: Build, Push Docker Image and Deploy to Kubernetes
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
   IMAGE_NAME: nickngaii/todo-app
@@ -47,7 +47,7 @@ jobs:
           kubectl -n ${{ env.K8S_NAMESPACE }} set image deployment/${{ env.DEPLOYMENT_NAME }} \
             ${{ env.CONTAINER_NAME }}=${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }}
           kubectl -n ${{ env.K8S_NAMESPACE }} rollout status deployment/${{ env.DEPLOYMENT_NAME }}
-          
+
       - name: Inject environment variables into Deployment
         run: |
           kubectl -n ${{ env.K8S_NAMESPACE }} set env deployment/${{ env.DEPLOYMENT_NAME }} \
